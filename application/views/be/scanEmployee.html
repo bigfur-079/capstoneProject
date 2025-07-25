@@ -1,0 +1,30 @@
+<div class="container-sm">
+    <h3 class="text-center">瀏覽</h3>
+    <table class="table table-bordered align-middle" border="1" style='border-collapse:collapse; text-align: center; font-size: 18px;'>
+        {{foreach from=$query key=k item=v}}
+            <tr>
+                <th class="p-3 mb-2 bg-light">姓名</th><td>{{$v.em01}}</td>
+            </tr>
+            <tr>
+                <th class="p-3 mb-2 bg-light">性別</th><td>{{$v.em02_str}}</td>
+            </tr>
+            <tr>
+                <th class="p-3 mb-2 bg-light">出生年月日</th><td>{{$v.em03}}</td>
+            </tr>
+            <tr>
+                <th class="p-3 mb-2 bg-light">電子郵件</th><td>{{$v.em04}}</td>
+            </tr>
+            <tr>
+                <th class="p-3 mb-2 bg-light">電話</th><td>{{$v.em05}}</td>
+            </tr>
+            <tr>
+                <th class="p-3 mb-2 bg-light">備註</th><td>{{$v.em06}}</td>
+            </tr>
+            <tr>
+                <td colspan='2'>
+                    <button class="btn btn-outline-secondary" type="button" onClick="window.location.href='http://localhost/CI/index.php/employee'">回首頁</button>
+                </td>
+            </tr>
+        {{/foreach}}
+    </table>
+</div>

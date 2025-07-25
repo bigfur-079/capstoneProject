@@ -1,0 +1,52 @@
+<!--位置顯示功能選擇-->
+<div class="container-md">
+    <div class="text-center">
+        <button id="currentB" type="button" class="btn btn-outline-secondary" onclick="showCurrentPosition()">照服員目前位置</button>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <button id="recordB" type="button" class="btn btn-outline-secondary" onclick="showRecordPosition()">照服員位置紀錄</button>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="button" class="btn btn-outline-secondary" onclick="mqttEx()">mqtt測試</button>
+    </div>
+</div>
+
+<hr>
+
+<!--照服員目前位置-->
+<div id="currentPosition" class="container-xl">
+    <!--目前位置搜尋欄-->
+    <div id="currentSelect" class="mx-auto p-2">
+        <div id="currentSelect1" class="input-group">
+            <input class="form-control" list="currentOptions" id="currentName" name="currentName" placeholder="請選擇照服員">
+            <datalist id="currentOptions">
+                {{foreach from=$member key=x item=y}}
+                <option value='{{$y.user_id}}、{{$y.name}}'></option>
+                {{/foreach}}
+            </datalist>
+            <button class="btn btn-outline-secondary" type="button" onclick="searchName()">名稱搜尋</button>
+        </div>
+    </div>
+    <br>
+    <!--目前位置地圖-->
+    <div id="currentMap"></div>
+</div>
+
+<!--照服員位置紀錄-->
+<div id="recordPosition" class="container-xl">
+    <!--位置紀錄搜尋欄-->
+    <div id="recordSelect" class="mx-auto p-2">
+        <div id="recordSelect1" class="input-group">
+            <input id="recordDate" type="date" class="form-control" name="recordDate">
+            <input class="form-control" list="recordOptions" id="recordName" name="recordName" placeholder="請選擇照服員">
+            <datalist id="recordOptions">
+                {{foreach from=$member key=x item=y}}
+                <option value='{{$y.user_id}}、{{$y.name}}'></option>
+                {{/foreach}}
+            </datalist>
+            <button class="btn btn-outline-secondary" type="button" onclick="searchRecord()">紀錄搜尋</button>
+        </div>
+    </div>
+    <br>
+    <!--位置紀錄地圖-->
+    <div id="recordMap"></div>
+</div>
+

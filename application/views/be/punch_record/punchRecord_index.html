@@ -1,0 +1,49 @@
+<!--打卡紀錄功能選擇-->
+<div class="container-md">
+  <div class="text-center">
+    <button type="button" id="todayB" class="btn btn-outline-secondary" onclick="showSearchToday()">今日打卡紀錄</button>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <button type="button" id="recordB" class="btn btn-outline-secondary" onclick="showSearchPunch()">查詢打卡紀錄</button>
+  </div>
+</div>
+
+<hr><br>
+
+<!--今日打卡紀錄-->
+<div id="todayPunch" class="container-xl">
+  <!--今日打卡搜尋欄-->
+  <div id="todaySelect" class="mx-auto p-2">
+      <div id="todaySelect1" class="input-group">
+          <input class="form-control" list="todayOptions" id="todayName" name="todayName" placeholder="請選擇照服員">
+          <datalist id="todayOptions">
+              {{foreach from=$member key=x item=y}}
+              <option value='{{$y.user_id}}、{{$y.name}}'></option>
+              {{/foreach}}
+          </datalist>
+          <button class="btn btn-outline-secondary" type="button" onclick="searchToday()">名稱搜尋</button>
+      </div>
+  </div>
+  <br>
+  <!--今日打卡地圖-->
+  <div id="todayMap"></div>
+</div>
+
+<!--查詢打卡紀錄-->
+<div id="punchRecord" class="container-xl">
+  <!--打卡紀錄搜尋欄-->
+  <div id="punchSelect" class="mx-auto p-2">
+      <div id="punchSelect1" class="input-group">
+          <input id="punchDate" type="date" class="form-control" name="punchDate">
+          <input class="form-control" list="punchOptions" id="punchName" name="punchName" placeholder="請選擇照服員">
+          <datalist id="punchOptions">
+              {{foreach from=$member key=x item=y}}
+              <option value='{{$y.user_id}}、{{$y.name}}'></option>
+              {{/foreach}}
+          </datalist>
+          <button class="btn btn-outline-secondary" type="button" onclick="searchRecord()">紀錄搜尋</button>
+      </div>
+  </div>
+  <br>
+  <!--打卡紀錄地圖-->
+  <div id="punchMap"></div>
+</div>

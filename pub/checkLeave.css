@@ -1,0 +1,36 @@
+#addLeave {
+    width: 800px;
+}
+
+#allLeave {
+    width: 800px;
+}
+
+#searchLeave {
+    width: 800px;
+}
+
+#searchSelect {
+    width: 500px;
+}
+
+/*#searchResult {
+    display: none;
+}*/
+
+#allTable {
+    text-align: center;
+}
+
+#scanTable th{
+    text-align: right;
+}
+
+#modifyTable th{
+    text-align: right;
+}
+
+.star::after{
+    content:" *";
+    color:red;
+}

@@ -1,0 +1,308 @@
+<!--檢核請假功能選擇-->
+<div class="container-md">
+  <div class="text-center">
+    <button id="addB" type="button" class="btn btn-outline-secondary" onclick="showAddLeave()">新增請假資料</button>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <button id="allB" type="button" class="btn btn-outline-secondary" onclick="showAllLeave()">全部請假資料</button>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <button id="searchB" type="button" class="btn btn-outline-secondary" onclick="showSearchLeave()">查詢請假資料</button>
+  </div>
+</div>
+
+<hr><br>
+
+<!--新增請假資料-->
+<div id="addLeave" class="container-xl">
+  <div class="row g-3">
+    <div class="col-12">
+      <label for="name" class="form-label star">照服員ID、姓名</label>
+      <input class="form-control" list="nameOptions" id="name" name="name" required>
+      <datalist id="nameOptions">
+        {{foreach from=$member key=x item=y}}
+        <option value='{{$y.user_id}}、{{$y.name}}'></option>
+        {{/foreach}}
+      </datalist>
+    </div>
+    <div class="col-md-6">
+      <label for="startDatetime" class="form-label star">開始日期、時間</label>
+      <input type="datetime-local" class="form-control" id="startDatetime" name="startDatetime" required>
+    </div>
+    <div class="col-md-6">
+      <label for="endDatetime" class="form-label star">結束日期、時間</label>
+      <input type="datetime-local" class="form-control" id="endDatetime" name="endDatetime" required>
+    </div>
+    <div class="col-12">
+      <label for="category" class="form-label star">請假類別</label>
+      <select class="form-select" id="category" name="category" required>
+        <option selected value="">請選擇類別</option>
+        <option value="事假">事假</option>
+        <option value="病假">病假</option>
+        <option value="喪假">喪假</option>
+        <option value="公假">公假</option>
+        <option value="產假">產假</option>
+        <option value="生理假">生理假</option>
+      </select>
+    </div>
+    <div class="col-12">
+      <label for="reason" class="form-label star">請假事由</label>
+      <input type="text" class="form-control" id="reason" name="reason" required>
+    </div>
+    <div class="col-12">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="check" name="check">
+        <label class="form-check-label" for="check">
+          檢核通過
+        </label>
+      </div>
+    </div>
+    <div class="col-12">
+      <button type="button" class="btn btn-secondary" onclick="checkTime();">送出</button>
+    </div>
+  </div>
+</div>
+
+<!--全部請假資料-->
+<div id="allLeave" class="container-xl">
+  <!--全部請假資料顯示區-->
+  <div id="leaveData">
+    <table id="allTable" class="table table-bordered table-hover align-middle" border="1">
+      <thead class="table-light">
+        <tr>
+          <th>編號</th>
+          <th>照服員ID</th>
+          <th>照服員姓名</th>
+          <th>開始日期、時間</th>
+          <th>結束日期、時間</th>
+          <th>選項</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{foreach from=$leaveData key=x item=y}}
+        <tr class="p-3 mb-2">
+          <td>{{$x + 1}}</td>
+          <td>{{$y.uid}}</td>
+          <td>{{$y.name}}</td>
+          <td>{{$y.start_time}}</td>
+          <td>{{$y.end_time}}</td>
+          <td>
+            <button id="scanB" class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#scanModal"
+              onclick="showScan('{{$y.uid}}', '{{$y.name}}', '{{$y.start_time}}', '{{$y.end_time}}', '{{$y.category}}', '{{$y.reason}}', '{{$y.check}}')">
+            瀏覽</button>
+            <button id="modifyB" class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modifyModal"
+              onclick="showModify('{{$y.leave_id}}', '{{$y.uid}}', '{{$y.name}}', '{{$y.start_time}}', '{{$y.end_time}}', '{{$y.category}}', '{{$y.reason}}', '{{$y.check}}')">
+            修改</button>
+            <button class="btn btn-outline-secondary" type="button"
+              onclick="Delete('{{$y.leave_id}}')">
+            刪除</button>
+          </td>
+        </tr>
+        {{/foreach}}
+      </tbody>
+    </table>
+  </div>
+
+  <!--全部請假資料分頁連結區-->
+  <div class="allLeaveLink">
+    {{$allLinks}}
+  </div>
+</div>
+
+<!--查詢請假資料-->
+<div id="searchLeave" class="container-xl">
+  <!--查詢區-->
+  <div id="searchSelect" class="mx-auto p-2">
+    <!--日期查詢-->
+    <div id="searchSelect1">
+      <div class="row g-1">
+        <div class="col-md-9">
+          <input id="searchDate" type="date" class="form-control" name="searchDate">
+        </div>
+        <div class="col-md-3">
+          <button class="form-control btn btn-outline-secondary" type="button" onclick="searchDate()">日期搜尋</button>
+        </div>
+      </div>
+    </div>
+    <br>
+    <!--姓名查詢-->
+    <div id="searchSelect2">
+      <div class="row g-1">
+        <div class="col-md-8">
+          <input class="form-control" list="searchOptions" id="searchName" name="searchName" placeholder="請選擇照服員">
+          <datalist id="searchOptions">
+            {{foreach from=$member key=x item=y}}
+            <option value='{{$y.user_id}}、{{$y.name}}'></option>
+            {{/foreach}}
+          </datalist>
+        </div>
+        <div class="col-md-4">
+          <button class="form-control btn btn-outline-secondary" type="button" onclick="searchName()">ID、姓名搜尋</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br>
+
+  <!--查詢結果顯示區-->
+  <div id="searchResult">
+    {{if isset($nameData)}}
+    <table id="searchTable" class="table table-bordered table-hover align-middle" border="1">
+      <thead class="table-light">
+        <tr>
+          <th>編號</th>
+          <th>照服員ID</th>
+          <th>照服員姓名</th>
+          <th>開始日期、時間</th>
+          <th>結束日期、時間</th>
+          <th>選項</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{foreach from=$nameData key=x item=y}}
+        <tr class="p-3 mb-2">
+          <td>{{$x + 1}}</td>
+          <td>{{$y.uid}}</td>
+          <td>{{$y.name}}</td>
+          <td>{{$y.start_time}}</td>
+          <td>{{$y.end_time}}</td>
+          <td>
+            <button id="scanB" class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#scanModal"
+              onclick="showScan('{{$y.uid}}', '{{$y.name}}', '{{$y.start_time}}', '{{$y.end_time}}', '{{$y.category}}', '{{$y.reason}}', '{{$y.check}}')">
+            瀏覽</button>
+            <button id="modifyB" class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modifyModal"
+              onclick="showModify('{{$y.leave_id}}', '{{$y.uid}}', '{{$y.name}}', '{{$y.start_time}}', '{{$y.end_time}}', '{{$y.category}}', '{{$y.reason}}', '{{$y.check}}')">
+            修改</button>
+            <button class="btn btn-outline-secondary" type="button" 
+              onclick="Delete('{{$y.leave_id}}');">
+            刪除</button>
+          </td>
+        </tr>
+        {{/foreach}}
+      </tbody>
+    </table>
+    {{/if}}
+  </div>
+</div>
+
+<!--瀏覽視窗-->
+<div class="modal fade" id="scanModal" tabindex="-1" aria-labelledby="scanModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="scanModalLabel">瀏覽資料</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <table id="scanTable" class="table table-bordered">
+          <tr>
+            <th>照服員ID：</th>
+            <td id="scanUid"></td>
+          </tr>
+          <tr>
+            <th>照服員姓名：</th>
+            <td id="scanName"></td>
+          </tr>
+          <tr>
+            <th>開始日期、時間：</th>
+            <td id="scanStartTime"></td>
+          </tr>
+          <tr>
+            <th>結束日期、時間：</th>
+            <td id="scanEndTime"></td>
+          </tr>
+          <tr>
+            <th>請假類別：</th>
+            <td id="scanCategory"></td>
+          </tr>
+          <tr>
+            <th>請假事由：</th>
+            <td id="scanReason"></td>
+          </tr>
+          <tr>
+            <th>檢核結果：</th>
+            <td id="scanCheck"></td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--修改視窗-->
+<div class="modal fade" id="modifyModal" tabindex="-1" aria-labelledby="modifyModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="modifyModalLabel">修改資料</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <table id="modifyTable" class="table table-bordered">
+          <tr hidden>
+            <th>編號：</th>
+            <td><input id="modifyID" type="text" class="form-control" name="modifyID"></td>
+          </tr>
+          <tr>
+            <th>照服員ID：</th>
+            <td><input id="modifyUid" type="text" class="form-control" name="modifyUid" disabled></td>
+          </tr>
+          <tr>
+            <th>照服員姓名：</th>
+            <td><input id="modifyName" type="text" class="form-control" name="modifyName" disabled></td>
+          </tr>
+          <tr>
+            <th>開始日期、時間：</th>
+            <td><input id="modifyStartTime" type="datetime-local" class="form-control" name="modifyStartTime" required></td>
+          </tr>
+          <tr>
+            <th>結束日期、時間：</th>
+            <td><input id="modifyEndTime" type="datetime-local" class="form-control" name="modifyEndTime" required></td>
+          </tr>
+          <tr>
+            <th>請假類別：</th>
+            <td>
+              <select class="form-select" id="modifyCategory" name="modifyCategory" required>
+                <option value="事假">事假</option>
+                <option value="病假">病假</option>
+                <option value="喪假">喪假</option>
+                <option value="公假">公假</option>
+                <option value="產假">產假</option>
+                <option value="生理假">生理假</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th>請假事由：</th>
+            <td><input id="modifyReason" type="text" class="form-control" name="modifyReason" required></td>
+          </tr>
+          <tr>
+            <th>檢核結果：</th>
+            <td>
+              <input class="form-check-input" type="checkbox" id="modifyCheck" name="modifyCheck" value="通過">
+              <label class="form-check-label" for="modifyCheck">
+                檢核通過
+              </label>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" onclick="checkReason();">修改</button>
+      </div>
+    </div>
+  </div>
+</div>

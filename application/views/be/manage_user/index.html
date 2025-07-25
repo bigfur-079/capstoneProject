@@ -1,0 +1,354 @@
+<!--檢核請假功能選擇-->
+<div class="container-md">
+  <div class="text-center">
+    <button id="addB" type="button" class="btn btn-outline-secondary" onclick="showAddLeave()">新增使用者</button>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <button id="allB" type="button" class="btn btn-outline-secondary" onclick="showAllLeave()">全部使用者</button>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <button id="searchB" type="button" class="btn btn-outline-secondary" onclick="showSearchLeave()">查詢使用者</button>
+  </div>
+</div>
+
+<hr><br>
+
+<!--新增資料-->
+<form action="" method="post"></form>
+<div id="addLeave" class="container-xl">
+  <div class="row g-3">
+    
+    <div class="col-12">
+      <label for="name" class="form-label star">姓名</label>
+      <input class="form-control"  id="name" name="name" required>
+    </div>
+    <div class="col-md-6">
+      <label for="role" class="form-label star">權限：</label>
+      <select class="form-select" id="role" name="role" required>
+        <option selected value="">請選擇權限</option>
+        <option value="管理者">管理者</option>
+        <option value="照服員">照服員</option>
+        <option value="案主">案主</option>
+      </select>
+    </div>
+    <div class="col-md-6">
+      <label for="gender" class="form-label star">性別：</label>
+      <select class="form-select" id="gender" name="gender" required>
+        <option selected value="">請選擇性別</option>
+        <option value="男">男</option>
+        <option value="女">女</option>
+      </select>
+    </div>
+    <div class="col-12">
+      <label for="birthday" class="form-label star">生日:</label>
+      <input type="date" class="form-control" id="birthday" name="birthday" required>
+    </div>
+    
+    
+    <div class="col-md-6">
+      <label for="phone_one" class="form-label star">電話1:</label>
+      <input type="number" class="form-control" id="phone_one" name="phone_one" required>
+    </div>
+    <div class="col-md-6">
+      <label for="phone_two" class="form-label star">電話2:</label>
+      <input type="number" class="form-control" id="phone_two" name="phone_two" required>
+    </div>
+    <div class="col-12">
+      <label for="email" class="form-label star">信箱:</label>
+      <input type="email" class="form-control" id="email" name="email" required>
+    </div>
+    <div class="col-12">
+      <label for="address" class="form-label star">地址:</label>
+      <input type="text" class="form-control" id="address" name="address" required>
+    </div>
+    <div class="col-12">
+      <label for="account" class="form-label star">帳號:</label>
+      <input type="text" class="form-control" id="account" name="account" required>
+      
+    </div>
+    <div class="col-12">
+      <label for="password" class="form-label star">密碼:</label>
+      <input type="password" class="form-control" id="password" name="password" required>
+    </div>
+    <div class="col-12">
+      <button type="button" class="btn btn-secondary" name="add_submit" onclick="check_empty()">送出</button>
+    </div>
+  
+  </div>
+</div>
+</form>
+<!--全部user資料-->
+<div id="allLeave" class="container-xl">
+  <!--全部user資料顯示區   -->
+  <div id="leaveData">
+    <table id="allTable" class="table table-bordered  table-hover align-middle" border="1">
+      <thead class="table-light">
+        <tr class="p-3 mb-2">
+          <th>編號</th>
+          <th>使用者ID</th>
+          <th>姓名</th>
+          <th>權限</th>
+          <th>性別</th>
+          <th>生日</th>
+          <th>電話1</th>
+          <th>信箱</th>
+          <th>地址</th>
+          <th>帳號</th>
+          <th>選項</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{foreach from=$user_data key=x item=y}}
+        <tr class="p-3 mb-2">
+          <td>{{$x + 1}}</td>
+          <td>{{$y.user_id}}</td>
+          <td>{{$y.name}}</td>
+          <td>{{$y.role}}</td>
+          <td>{{$y.gender}}</td>
+          <td>{{$y.birthday}}</td>
+          <td>{{$y.phone_one}}</td>
+          <td>{{$y.email}}</td>
+          <td>{{$y.address}}</td>
+          <td>{{$y.account}}</td>
+          <td>
+            <button id="scanB" class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#scanModal"
+              onclick="showScan('{{$y.user_id}}', '{{$y.name}}', '{{$y.role}}', '{{$y.gender}}', '{{$y.birthday}}', '{{$y.phone_one}}', '{{$y.phone_two}}', '{{$y.email}}', '{{$y.address}}', '{{$y.account}}')">
+              
+            瀏覽</button>
+            <button id="modifyB" class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modifyModal"
+              onclick="showModify('{{$y.user_id}}', '{{$y.name}}', '{{$y.role}}', '{{$y.gender}}', '{{$y.birthday}}', '{{$y.phone_one}}', '{{$y.phone_two}}', '{{$y.email}}', '{{$y.address}}', '{{$y.account}}')">
+            修改</button>
+            <button class="btn btn-outline-secondary" type="button"
+              onclick="Delete('{{$y.user_id}}')">
+            刪除</button>
+          </td>
+        </tr>
+        {{/foreach}}
+      </tbody>
+    </table>
+  </div>
+
+  <!--全部請假資料分頁連結區-->
+  <div class="allLeaveLink">
+    {{$allLinks}}
+  </div>
+</div>
+
+<!--查詢請假資料-->
+<div id="searchLeave" class="container-xl">
+  <!--查詢區-->
+  <div id="searchSelect" class="mx-auto p-2">
+    
+    <!--姓名查詢-->
+    <div id="searchSelect2">
+      <div class="row g-1">
+        <div class="col-md-8">
+          <input class="form-control" list="searchOptions" id="searchName" name="searchName" placeholder="請選擇照服員">
+          <datalist id="searchOptions">
+            {{foreach from=$member key=x item=y}}
+            <option value='{{$y.user_id}}、{{$y.name}}'></option>
+            {{/foreach}}
+          </datalist>
+        </div>
+        <div class="col-md-4">
+          <button class="form-control btn btn-outline-secondary" type="button" onclick="searchName()">ID、姓名搜尋</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br>
+
+  <!--查詢結果顯示區-->
+  <div id="searchResult">
+    {{if isset($nameData)}}
+    <table id="searchTable" class="table table-bordered table-hover align-middle" border="1">
+      <thead class="table-light">
+        <tr class="p-3 mb-2">
+          <th>編號</th>
+          <th>使用者ID</th>
+          <th>姓名</th>
+          <th>權限</th>
+          <th>性別</th>
+          <th>生日</th>
+          <th>電話1</th>
+          <th>信箱</th>
+          <th>地址</th>
+          <th>帳號</th>
+          <th>選項</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{foreach from=$nameData key=x item=y}}
+        <tr class="p-3 mb-2">
+          <td>{{$x + 1}}</td>
+          <td>{{$y.user_id}}</td>
+          <td>{{$y.name}}</td>
+          <td>{{$y.role}}</td>
+          <td>{{$y.gender}}</td>
+          <td>{{$y.birthday}}</td>
+          <td>{{$y.phone_one}}</td>
+          <td>{{$y.email}}</td>
+          <td>{{$y.address}}</td>
+          <td>{{$y.account}}</td>
+          <td>
+            <button id="scanB" class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#scanModal"
+              onclick="showScan('{{$y.user_id}}', '{{$y.name}}', '{{$y.role}}', '{{$y.gender}}', '{{$y.birthday}}', '{{$y.phone_one}}', '{{$y.phone_two}}', '{{$y.email}}', '{{$y.address}}', '{{$y.account}}')">
+              
+            瀏覽</button>
+            <button id="modifyB" class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modifyModal"
+              onclick="showModify('{{$y.user_id}}', '{{$y.name}}', '{{$y.role}}', '{{$y.gender}}', '{{$y.birthday}}', '{{$y.phone_one}}', '{{$y.phone_two}}', '{{$y.email}}', '{{$y.address}}', '{{$y.account}}')">
+            修改</button>
+            <button class="btn btn-outline-secondary" type="button"
+              onclick="Delete('{{$y.user_id}}')">
+            刪除</button>
+          </td>
+        </tr>
+        {{/foreach}}
+      </tbody>
+    </table>
+    {{/if}}
+  </div>
+</div>
+
+<!--瀏覽視窗-->
+<div class="modal fade" id="scanModal" tabindex="-1" aria-labelledby="scanModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="scanModalLabel">瀏覽資料</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <table id="scanTable" class="table table-bordered">
+          <tr>
+            <th>ID：</th>
+            <td id="scan_id"></td>
+          </tr>
+          <tr>
+            <th>姓名：</th>
+            <td id="scan_name"></td>
+          </tr>
+          <tr>
+            <th>權限：</th>
+            <td id="scan_role"></td>
+          </tr>
+          <tr>
+            <th>性別：</th>
+            <td id="scan_gender"></td>
+          </tr>
+          <tr>
+            <th>生日：</th>
+            <td id="scan_birthday"></td>
+          </tr>
+          <tr>
+            <th>電話1：</th>
+            <td id="scan_phone_one"></td>
+          </tr>
+          <tr>
+            <th>電話2：</th>
+            <td id="scan_phone_two"></td>
+          </tr>
+          <tr>
+            <th>信箱：</th>
+            <td id="scan_email"></td>
+          </tr>
+          <tr>
+            <th>地址：</th>
+            <td id="scan_address"></td>
+          </tr>
+          <tr>
+            <th>帳號:</th>
+            <td id="scan_account"></td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--修改視窗-->
+<div class="modal fade" id="modifyModal" tabindex="-1" aria-labelledby="modifyModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="modifyModalLabel">修改資料</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <table id="modifyTable" class="table table-bordered">
+          <tr hidden>
+            <th>編號：</th>
+            <td><input id="modifyID" type="text" class="form-control" name="modifyID"></td>
+          </tr>
+          <tr>
+            <th>會員ID：</th>
+            <td><input id="modify_id" type="text" class="form-control" name="modify_id" disabled></td>
+          </tr>
+          <tr>
+            <th>會員姓名：</th>
+            <td><input id="modify_name" type="text" class="form-control" name="modify_name" disabled></td>
+          </tr>
+          <tr>
+            <th>會員權限：</th>
+            <td>
+              <select class="form-select" id="modify_role" name="modify_role" required>
+                <option value="管理者">管理者</option>
+                <option value="照服員">照服員</option>
+                <option value="案主">案主</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th>會員性別：</th>
+            <td>
+            <select class="form-select" id="modify_gender" name="modify_gender" required>
+              <option value="男">男</option>
+              <option value="女">女</option>
+            </select>
+            </td>
+          </tr>
+          <tr>
+            <th>會員生日：</th>
+            <td><input id="modify_birthday" type="date" class="form-control" name="modify_birthday" required></td>
+          </tr>
+          <tr>
+            <th>電話1：</th>
+            <td><input id="modify_phone_one" type="number" class="form-control" name="modify_phone_one" required></td>
+          </tr>
+          <tr>
+            <th>電話2：</th>
+            <td><input id="modify_phone_two" type="number" class="form-control" name="modify_phone_two" required></td>
+          </tr>
+          <tr>
+            <th>會員信箱：</th>
+            <td><input id="modify_email" type="text" class="form-control" name="modify_email" required></td>
+          </tr>
+          <tr>
+            <th>會員地址：</th>
+            <td><input id="modify_address" type="text" class="form-control" name="modify_address" required></td>
+          </tr>
+          <tr>
+            <th>會員帳號：</th>
+            <td><input id="modify_account" type="text" class="form-control" name="modify_account" required></td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" onclick="modify();">修改</button>
+      </div>
+    </div>
+  </div>
+</div>

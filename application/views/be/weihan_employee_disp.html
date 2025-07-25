@@ -1,0 +1,121 @@
+{{include file="{{$tv_kind}}/meta.html"}}
+{{include file="{{$tv_kind}}/header.html"}}
+<script>
+  $(function(){
+  });
+</script>
+<div class="right-content">
+  <div class="page-title clearfix">
+    <div class="float-left">
+      <h1>{{$tv_cur_breadcrumb|default:''}}</h1>
+      <ol class="breadcrumb">
+        {{if !empty($tv_prev_breadcrumb|default:'')}}
+          <li class="breadcrumb-item"><a href="#">{{$tv_prev_breadcrumb|default:''}}</a></li>
+        {{/if}}
+        <li class="breadcrumb-item"><a href="#">{{$tv_cur_breadcrumb|default:''}}</a></li>
+        <li class="breadcrumb-item active">{{$tv_breadcrumb3}}</li>
+      </ol>
+    </div>
+    <div class="float-right">
+      <div class="visible-xs"><div class="maT10"></div></div>
+      <button type="button" class="btn btn-light btn-sm" onclick="location.href='{{$tv_upd_link}}{{$tv_weihan_employee_row->s_num}}';">{{$tv_upd_btn}} <i class="fas fa-pencil-alt"></i></button>
+      <button type="button" class="btn btn-light btn-sm" onclick="location.href='{{$tv_add_link}}';">{{$tv_add_btn}} <i class="fas fa-plus"></i></button>
+      <button class="btn btn-light btn-sm" type="button" onclick="location.href='{{$tv_return_link}}';">{{$tv_list_btn}} <i class="fas fa-list"></i></button>
+    </div>
+  </div>
+  <!-- container-fluid -->
+  <div class="container-fluid">
+    <br>
+    <div class="float-right">建檔:<span class="mainC1">{{$tv_weihan_employee_row->b_acc_name|default:''}}({{$tv_weihan_employee_row->b_date|default:''}})</span>-修改:<span class="mainC1">{{$tv_weihan_employee_row->e_acc_name|default:''}}({{$tv_weihan_employee_row->e_date|default:""}})</span></div>
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover table-sm">
+        {{assign var="swidth_left" value="20%"}}
+        {{assign var="swidth_right" value="80%"}}
+        <tbody>
+          <tr class="d-flex">
+            <td width="{{$swidth_left}}" class="table-secondary text-right">中文姓</td>
+            <td width="{{$swidth_right}}" class="table-light"><span class="text-dark">{{$tv_weihan_employee_row->em01_mask|default:''}}</span></td>
+          </tr>
+          <tr class="d-flex">
+            <td width="{{$swidth_left}}" class="table-secondary text-right">中文名</td>
+            <td width="{{$swidth_right}}" class="table-light"><span class="text-dark">{{$tv_weihan_employee_row->em02_mask|default:''}}</span></td>
+          </tr>
+          <tr class="d-flex">
+            <td width="{{$swidth_left}}" class="table-secondary text-right">身份證字號</td>
+            <td width="{{$swidth_right}}" class="table-light"><span class="text-dark">{{$tv_weihan_employee_row->em03_mask|default:''}}</span></td>
+          </tr>
+          <tr class="d-flex">
+            <td width="{{$swidth_left}}" class="table-secondary text-right">性別</td>
+            <td width="{{$swidth_right}}" class="table-light"><span class="text-dark">{{$tv_weihan_employee_row->em04_str|default:''}}</span></td>
+          </tr>
+          <tr class="d-flex">
+            <td width="{{$swidth_left}}" class="table-secondary text-right">員工編號</td>
+            <td width="{{$swidth_right}}" class="table-light"><span class="text-dark">{{$tv_weihan_employee_row->em05|default:''}}</span></td>
+          </tr>
+          <tr class="d-flex">
+            <td width="{{$swidth_left}}" class="table-secondary text-right">登入密碼</td>
+            <td width="{{$swidth_right}}" class="table-light"><span class="text-dark">{{$tv_weihan_employee_row->em_pwd|default:''}}</span></td>
+          </tr>
+          <tr class="d-flex">
+            <td width="{{$swidth_left}}" class="table-secondary text-right">Email Address</td>
+            <td width="{{$swidth_right}}" class="table-light"><span class="text-dark">{{$tv_weihan_employee_row->em06|default:''}}</span></td>
+          </tr>
+          <tr class="d-flex">
+            <td width="{{$swidth_left}}" class="table-secondary text-right">到職日</td>
+            <td width="{{$swidth_right}}" class="table-light"><span class="text-dark">{{$tv_weihan_employee_row->em07_start|default:''}}</span></td>
+          </tr>
+          <tr class="d-flex">
+            <td width="{{$swidth_left}}" class="table-secondary text-right">離職日</td>
+            <td width="{{$swidth_right}}" class="table-light"><span class="text-dark">{{$tv_weihan_employee_row->em07_end|default:''}}</span></td>
+          </tr>
+          <tr class="d-flex">
+            <td width="{{$swidth_left}}" class="table-secondary text-right">年資</td>
+            <td width="{{$swidth_right}}" class="table-light"><span class="text-dark">{{$tv_weihan_employee_row->em08|default:''}}</span></td>
+          </tr>
+          <tr class="d-flex">
+            <td width="{{$swidth_left}}" class="table-secondary text-right">手機門號</td>
+            <td width="{{$swidth_right}}" class="table-light"><span class="text-dark">{{$tv_weihan_employee_row->em09_mask|default:''}}</span></td>
+          </tr>
+          <tr class="d-flex">
+            <td width="{{$swidth_left}}" class="table-secondary text-right">家裡電話</td>
+            <td width="{{$swidth_right}}" class="table-light"><span class="text-dark">{{$tv_weihan_employee_row->em10_mask|default:''}}</span></td>
+          </tr>
+          <tr class="d-flex">
+            <td width="{{$swidth_left}}" class="table-secondary text-right">員工照片</td>
+            <td width="{{$swidth_right}}" class="table-light"><span class="text-dark">{{$tv_weihan_employee_row->em11|default:''}}</span></td>
+          </tr>
+          <tr class="d-flex">
+            <td width="{{$swidth_left}}" class="table-secondary text-right">備註</td>
+            <td width="{{$swidth_right}}" class="table-light"><span class="text-dark">{{$tv_weihan_employee_row->em99|nl2br|default:''}}</span></td>
+          </tr>
+          <tr class="d-flex">
+            <td width="{{$swidth_left}}" class="table-secondary text-right">登入次數</td>
+            <td width="{{$swidth_right}}" class="table-light"><span class="text-dark">{{$tv_weihan_employee_row->em_login_cnt|default:''}}</span></td>
+          </tr>
+          <tr class="d-flex">
+            <td width="{{$swidth_left}}" class="table-secondary text-right">最後登入日期時間</td>
+            <td width="{{$swidth_right}}" class="table-light"><span class="text-dark">{{$tv_weihan_employee_row->em_login_last_date|default:''}}</span></td>
+          </tr>
+          <tr class="d-flex">
+            <td width="{{$swidth_left}}" class="table-secondary text-right">最後登入IP</td>
+            <td width="{{$swidth_right}}" class="table-light"><span class="text-dark">{{$tv_weihan_employee_row->em_login_last_ip|default:''}}</span></td>
+          </tr>
+        				  		
+          <tr class="d-flex">
+            <td width="{{$swidth_left}}" class="table-secondary text-right">是否啟用</td>
+            <td width="{{$swidth_right}}" class="table-light">
+              <span class="text-dark">
+              {{if '1'==$tv_weihan_employee_row->is_available}}
+                是
+              {{else}}
+                否
+              {{/if}}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- container-fluid end-->
+</div>

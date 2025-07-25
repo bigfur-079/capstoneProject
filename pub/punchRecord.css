@@ -1,0 +1,22 @@
+#todayMap {
+    width: 100%;
+    height: 800px;
+}
+
+#punchMap {
+    width: 100%;
+    height: 800px;
+}
+
+#todaySelect {
+    width: 500px;
+}
+
+#punchSelect {
+    width: 500px;
+}
+
+.star::after{
+    content:" *";
+    color:red;
+}

@@ -1,0 +1,37 @@
+<div class="container-xl">
+    <h3 class="text-center">查詢結果</h3>
+    <table class="table table-bordered table-hover align-middle" border="1" style='border-collapse:collapse;  text-align: center; font-size: 18px;'>
+        <thead class="thead-light">
+            <tr>
+                <th>ID</th>
+                <th>姓名</th>
+                <th>性別</th>
+                <th>出生年月日</th>
+                <th>管理</th>
+            </tr>
+        </thead>
+        <tbody class="table table-group-divider">
+            {{foreach from=$inq key=k item=v}}
+                <tr class="p-3 mb-2">
+                    <td>{{$k}}</td>
+                    <td>{{$v.em01}}</td>
+                    <td>{{$v.em02_str}}</td>
+                    <td>{{$v.em03}}</td>
+                    <td>
+                        <button class="btn btn-outline-secondary" onclick="window.location.href=
+                        '{{$scan_link}}{{$k}}'">瀏覽</button>
+                        <button class="btn btn-outline-secondary" type="button" onclick="window.location.href=
+                        '{{$modify_link}}{{$k}}'">修改</button>
+                        <a href="{{$delete_link}}{{$k}}">
+                            <button class="btn btn-outline-secondary" type="button" onclick="if(confirm('您確定刪除嗎?'))
+                            return true;else return false">刪除</button>
+                        </a>
+                    </td>
+                </tr>
+            {{/foreach}}
+        </tbody>
+        <tr>
+            <td colspan='8'><button class="btn btn-outline-secondary" type="button" onClick="window.location='http://localhost/CI/index.php/employee'">回首頁</button></td>
+        </tr>
+    </table>
+</div>

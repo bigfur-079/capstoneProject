@@ -1,0 +1,39 @@
+<div class="container-sm">
+    <h3 class="text-center">修改</h3>
+    <table class="table table-bordered align-middle" border="1" style='border-collapse:collapse;  text-align: center; font-size: 18px;'>
+        {{foreach from=$query key=k item=v}}
+            {{form_open("index.php/employee/modifyEm/$k")}}
+                <tr>
+                    <th class="p-3 mb-2 bg-light">姓名</th><td><input type="text" name="name" value="{{$v.em01}}" style='width: 200px;'/></td>
+                </tr>
+                <tr>
+                    <th class="p-3 mb-2 bg-light">性別</th>
+                    <td class="form-group">
+                        <label style="font-size: 18px;"><input type="radio" id="sex" name="sex" value="1" {{if $v.em02 == 1}} checked {{/if}}>男生&emsp;</label>
+                        <label style="font-size: 18px;"><input type="radio" id="sex" name="sex" value="2" {{if $v.em02 == 2}} checked {{/if}}>女生&emsp;</label>
+                        <label style="font-size: 18px;"><input type="radio" id="sex" name="sex" value="3" {{if $v.em02 == 3}} checked {{/if}}>其他</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="p-3 mb-2 bg-light">出生年月日</th><td><input type="date" name="birthday" value="{{$v.em03}}" style='width: 200px;'/></td>
+                </tr>
+                <tr>
+                    <th class="p-3 mb-2 bg-light">電子郵件</th><td><input type="text" name="email" value="{{$v.em04}}" style='width: 200px;'/></td>
+                </tr>
+                <tr>
+                    <th class="p-3 mb-2 bg-light">電話</th><td><input type="text" name="phone" value="{{$v.em05}}" style='width: 200px;'/></td>
+                </tr>
+                <tr>
+                    <th class="p-3 mb-2 bg-light">備註</th><td><input type="text" name="else" value="{{$v.em06}}" style='width: 200px;'/></td>
+                </tr>
+                <tr>
+                    <td colspan='2'>
+                        <button class="btn btn-outline-secondary" type="submit">儲存</button>
+                        <button class="btn btn-outline-secondary" type="reset">重製</button>
+                        <button class="btn btn-outline-secondary" type="button" onClick="window.location.href='http://localhost/CI/index.php/employee'">回首頁</button>
+                    </td>
+                </tr>
+            {{form_close()}}
+        {{/foreach}}
+    </table>
+</div>

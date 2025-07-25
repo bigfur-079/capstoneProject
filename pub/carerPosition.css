@@ -1,0 +1,17 @@
+#currentMap {
+    width: 100%;
+    height: 800px;
+}
+
+#recordMap {
+    width: 100%;
+    height: 800px;
+}
+
+#currentSelect {
+    width: 500px;
+}
+
+#recordSelect {
+    width: 600px;
+}

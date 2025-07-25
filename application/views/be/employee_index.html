@@ -1,0 +1,56 @@
+<div class="container-md">
+    <h3 style='text-align: center'>查詢</h3>
+    <table class="table table-bordered" border="1" style='border-collapse:collapse; text-align: center; font-size: 18px;'>
+        {{form_open('index.php/employee/inquire')}}
+            <tr>
+                <th class="col-2">姓名</th>
+                <td class="col-3"><input type="text" name="name" style='width: 200px;'/></td>
+                <td class="col-2"><input class="btn btn-outline-secondary" type="submit" name="submit" value="確認"/></td>
+            </tr>
+        {{form_close()}}
+    </table>
+    <br/>
+    <div class="text-center">
+        <h3>新增</h3>
+        <button class="btn btn-secondary btn-lg" onclick="window.location.href='http://localhost/CI/index.php/employee/add'">新增員工資料</button>
+    </div>
+    <br/><br/>
+</div>
+<div class="container-xl">
+    <h3 class="text-center">員工資料</h3>
+    <table class="table table-bordered table-hover align-middle" border="1" style='border-collapse:collapse; text-align: center; font-size: 18px;'>
+        <thead class="thead-light">
+            <tr>
+                <th>ID</th>
+                <th>姓名</th>
+                <th>性別</th>
+                <th>出生年月日</th>
+                <th>管理</th>
+            </tr>
+        </thead>
+        <tbody class="table table-group-divider">
+            {{foreach from=$employee_row key=k item=v}}
+                <tr class="p-3 mb-2">
+                    <td>{{$k}}</td>
+                    <td>{{$v.em01}}</td>
+                    <td>{{$v.em02_str}}</td>
+                    <td>{{$v.em03}}</td>
+                    <td>
+                        <button class="btn btn-outline-secondary" onclick="window.location.href=
+                        '{{$scan_link}}{{$k}}'">瀏覽</button>
+                        <button class="btn btn-outline-secondary" type="button" onclick="window.location.href=
+                        '{{$modify_link}}{{$k}}'">修改</button>
+                        <a href="{{$delete_link}}{{$k}}">
+                            <button class="btn btn-outline-secondary" type="button" onclick="if(confirm('您確定刪除嗎?'))
+                            return true;else return false">刪除</button>
+                        </a>
+                    </td>
+                </tr>
+            {{/foreach}}
+        </tbody>
+        <tr>
+            <td colspan='5' style='text-align: center'>{{$links}}</td>
+        </tr>
+    </table>
+</div>
+
